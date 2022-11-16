@@ -2,11 +2,14 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
+import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
+        private TicketDAO ticketDAO;
 
-    public void calculateFare(Ticket ticket, boolean isRegularUser) {
+
+    public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
@@ -26,24 +29,30 @@ public class FareCalculatorService {
             switch (ticket.getParkingSpot().getParkingType()) {
                 case CAR: {
                     ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                    calculDiscount(ticket.getPrice(), ticket);
                     break;
                 }
                 case BIKE: {
                     ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                    calculDiscount(ticket.getPrice(), ticket);
                     break;
                 }
                 default:
                     throw new IllegalArgumentException("Unkown Parking Type");
             }
-            if (isRegularUser) {
-                double price = ticket.getPrice();
-                double priceDiscount = price - (price * 0.05);
+
+        }
+
+    }
+
+    //methode remise de 5%
+    public void calculDiscount(double price, Ticket ticket){
+        if(ticket.isAvaibleDiscount()){
+                double priceDiscount = (price * 5)/100;
                 priceDiscount = Math.round(priceDiscount * 10.0) / 10.0;
                 ticket.setPrice(priceDiscount);
                 System.out.println("5% discount has been applied to ticket price");
-            }
         }
-
-
+        ticket.setPrice(price);
     }
 }

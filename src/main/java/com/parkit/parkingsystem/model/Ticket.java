@@ -11,6 +11,8 @@ public class Ticket {
     private Date inTime;
     private Date outTime;
 
+    private boolean isAvaibleDiscount;
+
     public int getId() {
         return id;
     }
@@ -57,5 +59,13 @@ public class Ticket {
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
+    }
+
+    public boolean isAvaibleDiscount(){
+        return isAvaibleDiscount;
+    }
+
+    public void setAvaibleDiscount(boolean isAvaibleDiscount){
+        this.isAvaibleDiscount = isAvaibleDiscount;
     }
 }

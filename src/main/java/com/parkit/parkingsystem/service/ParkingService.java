@@ -50,11 +50,12 @@ public class ParkingService {
                     ticket.setInTime(inTime);
                     ticket.setOutTime(null);
                     ticketDAO.saveTicket(ticket);
-                    boolean isRegular = ticketDAO.checkVehicleIsReg(vehicleRegNumber);
-                    if (isRegular == true) {
+                    if (ticketDAO.checkVehicleIsReg(vehicleRegNumber)) {
                         System.out.println("Regular customer you get 5% discount.Ticket generated");
+                        ticket.setAvaibleDiscount(true);
                     } else {
                         System.out.println("Generated Ticket and saved in DB");
+                        ticket.setAvaibleDiscount(false);
                     }
                     System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
                     System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
@@ -117,10 +118,9 @@ public class ParkingService {
 
             if (vehicleInParking == true) {
                 Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-                boolean isRegular = ticketDAO.checkVehicleIsReg(vehicleRegNumber);
                 Date outTime = new Date();
                 ticket.setOutTime(outTime);
-                fareCalculatorService.calculateFare(ticket, isRegular);
+                fareCalculatorService.calculateFare(ticket);
                 if (ticketDAO.updateTicket(ticket)) {
                     ParkingSpot parkingSpot = ticket.getParkingSpot();
                     parkingSpot.setAvailable(true);

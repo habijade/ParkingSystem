@@ -8,14 +8,15 @@ import java.sql.*;
 
 public class DataBaseTestConfig extends DataBaseConfig {
 
-    private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
+    private static final Logger logger = LogManager.getLogger(DataBaseTestConfig.class);
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3307/test?useSSL=false","test","test");
+                "jdbc:mysql://localhost:3307/test?allowPublicKeyRetrieval=true&useSSL=false","test","test");
     }
+
 
     public void closeConnection(Connection con){
         if(con!=null){

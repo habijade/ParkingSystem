@@ -52,10 +52,21 @@ public class ParkingServiceTest {
         }
     }
 
-//    @Test
-//    public void processExitingVehicleTest(){
-//        parkingService.processExitingVehicle();
-//        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
-//    }
+
+        @Test
+    public void processExitingVehicleTest() throws Exception{
+        parkingService.processExitingVehicle();
+        verify(ticketDAO, Mockito.times(1)).getTicket(any());
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+    }
+
+    @Test
+    public void processIncomingVehicle() throws Exception{
+        parkingService.processIncomingVehicle();
+        verify(inputReaderUtil, Mockito.times(1)).readVehicleRegistrationNumber();
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).checkVehicleIsReg(anyString());
+        verify(ticketDAO, Mockito.times(1)).saveTicket(any());
+    }
 
 }
