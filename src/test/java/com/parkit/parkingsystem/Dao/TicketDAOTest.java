@@ -149,4 +149,17 @@ public class TicketDAOTest {
     }
 
 
+    @Test
+    public void testCheckVehicleInParking() throws SQLException, ClassNotFoundException, IOException {
+        // GIVEN
+        String vehicleRegNumber = "ABCDEF";
+        Ticket ticket = new Ticket();
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setOutTime(null);
+        //WHEN
+        boolean vehicleInParking = ticketDao.checkVehicleInParking(vehicleRegNumber);
+        // THEN
+        assertEquals(vehicleInParking, true);
+    }
+
 }
