@@ -1,7 +1,6 @@
-package com.parkit.parkingsystem.Dao;
+package com.parkit.parkingsystem.dao;
 
 import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import org.junit.jupiter.api.AfterAll;
@@ -46,11 +45,13 @@ public class ParkingSpotDAOTest {
         ParkingType parkingType = ParkingType.BIKE;
 
         // WHEN
-        int resultSlotAvaible = parkingSpotDAO.getNextAvailableSlot(parkingType);
+        int resultSlotAvailable = parkingSpotDAO.getNextAvailableSlot(parkingType);
 
         // THEN
-        assertEquals(4, resultSlotAvaible );
+        assertEquals(4, resultSlotAvailable );
     }
+
+
 
     //test sur la methode de mise a jour d'une place de parking, return true si place de dispo
     @Test

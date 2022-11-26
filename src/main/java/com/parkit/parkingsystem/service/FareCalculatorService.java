@@ -9,7 +9,7 @@ public class FareCalculatorService {
         private TicketDAO ticketDAO;
 
 
-    public void calculateFare(Ticket ticket) {
+    public void calculateFare(Ticket ticket, boolean isRegularUser) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
@@ -29,25 +29,23 @@ public class FareCalculatorService {
             switch (ticket.getParkingSpot().getParkingType()) {
                 case CAR: {
                     ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
-                    calculDiscount(ticket.getPrice(), ticket);
                     break;
                 }
                 case BIKE: {
                     ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
-                    calculDiscount(ticket.getPrice(), ticket);
                     break;
                 }
                 default:
                     throw new IllegalArgumentException("Unkown Parking Type");
             }
-
+            calculDiscount(ticket.getPrice(), ticket, isRegularUser);
         }
 
     }
 
     //methode remise de 5%
-    public void calculDiscount(double price, Ticket ticket){
-        if(ticket.isAvaibleDiscount()){
+    public void calculDiscount(double price, Ticket ticket, boolean isRegularUser){
+        if(isRegularUser){
                 double priceDiscount = (price * 5)/100;
                 priceDiscount = Math.round(priceDiscount * 10.0) / 10.0;
                 ticket.setPrice(priceDiscount);

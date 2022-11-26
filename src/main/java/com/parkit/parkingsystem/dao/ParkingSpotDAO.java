@@ -27,7 +27,7 @@ public class ParkingSpotDAO {
             ps.setString(1, parkingType.toString());
             rs = ps.executeQuery();
             if(rs.next()){
-                result = rs.getInt(1);;
+                result = rs.getInt(1);
             }
 
         }catch (Exception ex){
@@ -43,9 +43,10 @@ public class ParkingSpotDAO {
     public boolean updateParking(ParkingSpot parkingSpot){
         //update the availability fo that parking slot
         Connection con = null;
+        PreparedStatement ps = null;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
+            ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
             ps.setBoolean(1, parkingSpot.isAvailable());
             ps.setInt(2, parkingSpot.getId());
             //donne le nb de mise a jour qui a été fait
@@ -56,6 +57,7 @@ public class ParkingSpotDAO {
             logger.error("Error updating parking info",ex);
             return false;
         }finally {
+            dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
         }
     }

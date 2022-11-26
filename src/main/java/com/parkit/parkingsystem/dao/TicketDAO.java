@@ -19,7 +19,7 @@ public class TicketDAO {
     public boolean saveTicket(Ticket ticket) {
         Connection con = null;
         PreparedStatement ps = null;
-        if(ticket == null){
+        if (ticket == null) {
             throw new NullPointerException("invalid request");
         }
         try {
@@ -35,6 +35,7 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
         } finally {
+            dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
             return false;
         }
@@ -61,21 +62,22 @@ public class TicketDAO {
                 ticket.setInTime(rs.getTimestamp(4));
                 ticket.setOutTime(rs.getTimestamp(5));
             }
-            dataBaseConfig.closeResultSet(rs);
-            dataBaseConfig.closePreparedStatement(ps);
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
         } finally {
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
-            return ticket;
         }
+        return ticket;
     }
 
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
+        PreparedStatement ps = null;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
+            ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3, ticket.getId());
@@ -84,6 +86,7 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("Error saving ticket info", ex);
         } finally {
+            dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
         }
         return false;
