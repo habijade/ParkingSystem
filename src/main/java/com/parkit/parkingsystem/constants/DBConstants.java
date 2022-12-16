@@ -12,4 +12,6 @@ public class DBConstants {
     //query that checks if the vehicle is in the parking
     public static final String VEHICLE_IN_PARKING = "select count(VEHICLE_REG_NUMBER) as vehiclecount from ticket where VEHICLE_REG_NUMBER=? and OUT_TIME is null";
 
+//    public static  final
+
 }

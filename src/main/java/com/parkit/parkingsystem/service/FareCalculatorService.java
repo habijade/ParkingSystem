@@ -23,7 +23,6 @@ public class FareCalculatorService {
         duration = Math.round(duration * 100.0) / 100.0;
         if (duration <= 0.5) {
             ticket.setPrice(0.0);
-
         } else {
 
             switch (ticket.getParkingSpot().getParkingType()) {

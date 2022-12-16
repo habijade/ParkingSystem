@@ -82,7 +82,7 @@ public class ParkingServiceTest {
         verify(ticketDAO, Mockito.times(1)).getTicket(vehicleRegNumber);
         verify(fareCalculatorService, Mockito.times(1)).calculateFare(ticket, isRegularUser);
         verify(ticketDAO, Mockito.times(1)).updateTicket(ticket);
-//        verify(parkingSpotDAO, Mockito.times(1)).updateParking(parkingSpot);
+        verify(parkingSpotDAO, Mockito.times(0)).updateParking(parkingSpot);
     }
 
     @Test
@@ -93,26 +93,29 @@ public class ParkingServiceTest {
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn(vehicleRegNumber);
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(ticketDAO.checkVehicleInParking(vehicleRegNumber)).thenReturn(false);
-        when(ticketDAO.checkVehicleIsReg(vehicleRegNumber)).thenReturn(true);
         when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        parkingSpot.setAvailable(false);
+        when(parkingSpotDAO.updateParking(parkingSpot)).thenReturn(true);
+
         when(parkingSpotDAO.updateParking(parkingSpot)).thenReturn(false);
         Ticket ticket = new Ticket();
-//        ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
-//        ticket.setOutTime(new Date(System.currentTimeMillis()));
-//        ticket.setVehicleRegNumber("ABCDEF");
-//        ticket.setId(1);
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber(vehicleRegNumber);
+        ticket.setPrice(0);
+        ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
+        ticket.setOutTime(null);
         when(ticketDAO.saveTicket(ticket)).thenReturn(true);
 
         //WHEN
         parkingService.processIncomingVehicle();
 
         //THEN
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn(vehicleRegNumber);
+        verify(inputReaderUtil, Mockito.times(1)).readVehicleRegistrationNumber();
         verify(inputReaderUtil, Mockito.times(1)).readSelection();
         verify(ticketDAO, Mockito.times(1)).checkVehicleInParking(vehicleRegNumber);
-        verify(ticketDAO, Mockito.times(1)).checkVehicleIsReg(vehicleRegNumber);
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(parkingSpot);
+//        verify(ticketDAO, Mockito.times(1)).saveTicket(ticket);
 
     }
 
