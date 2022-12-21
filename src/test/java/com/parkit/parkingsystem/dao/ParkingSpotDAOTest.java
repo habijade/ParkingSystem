@@ -23,7 +23,6 @@ public class ParkingSpotDAOTest {
     @AfterAll
     public static void tearDownClass() {
 
-
     }
 
     @Test
@@ -32,15 +31,14 @@ public class ParkingSpotDAOTest {
         ParkingType parkingType = ParkingType.CAR;
 
         // WHEN
-        int resultSlotAvaible = parkingSpotDAO.getNextAvailableSlot(parkingType);
+        int resultSlotAvailable = parkingSpotDAO.getNextAvailableSlot(parkingType);
 
         // THEN
-        assertEquals(2, resultSlotAvaible );
+        assertEquals(2, resultSlotAvailable );
     }
 
     @Test
     public void testNextAvailableSlotForBike() {
-
         // GIVEN
         ParkingType parkingType = ParkingType.BIKE;
 
@@ -51,12 +49,8 @@ public class ParkingSpotDAOTest {
         assertEquals(4, resultSlotAvailable );
     }
 
-
-
-    //test sur la methode de mise a jour d'une place de parking, return true si place de dispo
     @Test
     public void testUpdateParkingCar() {
-
         // GIVEN
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
 
@@ -70,7 +64,6 @@ public class ParkingSpotDAOTest {
 
     @Test
     public void testUpdateParkingBike() {
-
         // GIVEN
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
 

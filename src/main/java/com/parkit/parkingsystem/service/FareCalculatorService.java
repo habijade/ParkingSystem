@@ -6,8 +6,6 @@ import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
-        private TicketDAO ticketDAO;
-
 
     public void calculateFare(Ticket ticket, boolean isRegularUser) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
@@ -17,7 +15,6 @@ public class FareCalculatorService {
         long inMillisecond = ticket.getInTime().getTime();
         long outMillisecond = ticket.getOutTime().getTime();
 
-        //TODO: Some tests are failing here. Need to check if this logic is correct
         double duration = outMillisecond - inMillisecond;
         duration = duration / 3600000;
         duration = Math.round(duration * 100.0) / 100.0;
@@ -42,7 +39,6 @@ public class FareCalculatorService {
 
     }
 
-    //methode remise de 5%
     public void calculDiscount(double price, Ticket ticket, boolean isRegularUser){
         if(isRegularUser){
                 double priceDiscount = (price * 5)/100;

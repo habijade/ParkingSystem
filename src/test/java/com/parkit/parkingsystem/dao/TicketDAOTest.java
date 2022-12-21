@@ -51,19 +51,16 @@ public class TicketDAOTest {
         // WHEN
         ticketDao.saveTicket(ticket);
         Ticket ticketResult = ticketDao.getTicket("ABCDEF");
+
         // THEN
-//        assertEquals(ticket.getPrice(), ticketResult.getPrice());
         assertEquals(ticket.getVehicleRegNumber(), ticketResult.getVehicleRegNumber());
         assertEquals(ticket.getOutTime(), ticketResult.getOutTime());
-//        assertEquals(ticket.getInTime(), ticketResult.getInTime());
         assertEquals(ticket.getParkingSpot(), ticketResult.getParkingSpot());
 
     }
 
-    //test echou si ticket null
     @Test
     public void testFailSaveTicketWithANullTicket() throws SQLException {
-        Ticket ticket = null;
         assertThrows(
                 NullPointerException.class,
                 () -> ticketDao.saveTicket(null));
@@ -77,22 +74,21 @@ public class TicketDAOTest {
         Ticket ticket = new Ticket();
         Date inTime = new Date();
         inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
-        Date outTime = null;
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
         ticket.setParkingSpot(parkingSpot);
         ticket.setId(2);
         ticket.setVehicleRegNumber(vehicleRegNumber);
         ticket.setPrice(Fare.CAR_RATE_PER_HOUR);
         ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
+        ticket.setOutTime(null);
 
+        //WHEN
         ticketDao.getTicket(vehicleRegNumber);
         Ticket ticketResult = ticketDao.getTicket("ABCDEF");
+
         // THEN
-//        assertEquals(ticket.getPrice(), ticketResult.getPrice());
         assertEquals(ticket.getVehicleRegNumber(), ticketResult.getVehicleRegNumber());
         assertEquals(ticket.getOutTime(), ticketResult.getOutTime());
-//        assertEquals(ticket.getInTime(), ticketResult.getInTime());
         assertEquals(ticket.getParkingSpot(), ticketResult.getParkingSpot());
 
     }
@@ -101,7 +97,6 @@ public class TicketDAOTest {
     @Test
     public void testUpdateTicket() throws SQLException, ClassNotFoundException, IOException {
         // GIVEN
-
 
         Ticket ticket = new Ticket();
         ticket.setPrice(Fare.CAR_RATE_PER_HOUR);
@@ -123,8 +118,10 @@ public class TicketDAOTest {
         Ticket ticket = new Ticket();
         ticket.setVehicleRegNumber("ABCDEF");
         ticket.setOutTime(outTime);
+
         //WHEN
         boolean userRecurrent = ticketDao.checkVehicleIsReg(vehicleRegNumber);
+
         // THEN
         assertEquals(userRecurrent, false);
     }
@@ -138,8 +135,10 @@ public class TicketDAOTest {
         Ticket ticket = new Ticket();
         ticket.setVehicleRegNumber("ABCDEF");
         ticket.setOutTime(outTime);
+
         //WHEN
         boolean userRecurrent = ticketDao.checkVehicleIsReg(vehicleRegNumber);
+
         // THEN
         assertNotNull(ticket.getOutTime());
         assertEquals(userRecurrent, false);
@@ -153,13 +152,12 @@ public class TicketDAOTest {
         Ticket ticket = new Ticket();
         ticket.setVehicleRegNumber("ABCDEF");
         ticket.setOutTime(null);
+
         //WHEN
         boolean vehicleInParking = ticketDao.checkVehicleInParking(vehicleRegNumber);
-        Date date = null;
 
         // THEN
         assertEquals(vehicleInParking, true);
-        // assertEqus date not null
     }
 
     @Test
@@ -169,6 +167,7 @@ public class TicketDAOTest {
         Ticket ticket = new Ticket();
         ticket.setVehicleRegNumber("ABCDEF");
         ticket.setOutTime(outTime);
+
         // WHEN
         boolean vehicleNotInParking = ticketDao.checkVehicleInParking(null);
 

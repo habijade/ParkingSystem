@@ -31,7 +31,8 @@ public class TicketDAO {
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
         } finally {
@@ -103,7 +104,6 @@ public class TicketDAO {
             ps = con.prepareStatement(DBConstants.NUMBER_TICKET_VEHICLE);
             ps.setString(1, vehicleRegNumber);
             rs = ps.executeQuery();
-            //si mon vehicule a des resultat
             if (rs.next()) {
                 int count = rs.getInt("ticketcounts");
                 if (count > 0) {
