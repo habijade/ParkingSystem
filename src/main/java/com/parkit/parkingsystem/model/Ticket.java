@@ -1,14 +1,25 @@
 package com.parkit.parkingsystem.model;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class Ticket {
+
+    //id
     private int id;
+
+    // the parking spot
     private ParkingSpot parkingSpot;
+
+    // the vehicle reg number
     private String vehicleRegNumber;
+
+    // the price
     private double price;
+
+    //the  date in time
     private Date inTime;
+
+    //the date out time
     private Date outTime;
 
     public int getId() {

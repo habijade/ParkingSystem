@@ -27,12 +27,13 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+    //Process in coming vehicle
     public void processIncomingVehicle() {
 
         try {
             String vehicleRegNumber = getVehicleRegNumber();
             boolean vehicleInParking = ticketDAO.checkVehicleInParking(vehicleRegNumber);
-            if ( vehicleInParking == true) {
+            if (vehicleInParking == true) {
                 System.out.println("the vehicle already exists in the parking");
             } else {
                 ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -65,11 +66,13 @@ public class ParkingService {
         }
     }
 
+  // Allows to obtain vehicle reg number.
     private String getVehicleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    //Allows you to get the next available parking space.
     public ParkingSpot getNextParkingNumberIfAvailable() {
         int parkingNumber = 0;
         ParkingSpot parkingSpot = null;
@@ -89,6 +92,7 @@ public class ParkingService {
         return parkingSpot;
     }
 
+    //Allows to obtain the type of vehicle.
     private ParkingType getVehicleType() {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
@@ -108,6 +112,7 @@ public class ParkingService {
         }
     }
 
+    //Process Existing vehicle.
     public void processExitingVehicle() {
         try {
             String vehicleRegNumber = getVehicleRegNumber();

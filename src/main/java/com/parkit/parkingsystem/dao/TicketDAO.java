@@ -8,7 +8,10 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 public class TicketDAO {
 
@@ -16,6 +19,9 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    /*
+    Save a ticket, takes a ticket as a parameter and returns true or false.
+     */
     public boolean saveTicket(Ticket ticket) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -42,6 +48,9 @@ public class TicketDAO {
         }
     }
 
+    /*
+    Save a ticket, takes a ticket as a parameter and returns true or false.
+     */
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
@@ -73,6 +82,9 @@ public class TicketDAO {
         return ticket;
     }
 
+    /*
+    Updates a ticket, takes a ticket as a parameter and returns true or false.
+     */
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -93,7 +105,9 @@ public class TicketDAO {
         return false;
     }
 
-
+   /*
+   Checks if the vehicle is a regular vehicle, takes the license plate as a parameter and returns true or false.
+   */
     public boolean checkVehicleIsReg(String vehicleRegNumber) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -121,6 +135,9 @@ public class TicketDAO {
 
     }
 
+    /*
+    Checks if my vehicle is inside the car park, takes the vehicle license plate as a parameter and returns true or false.
+     */
     public boolean checkVehicleInParking(String vehicleRegNumber) {
         Connection con = null;
         PreparedStatement ps = null;
