@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -80,9 +81,10 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingLotExit() {
+    public void testParkingLotExit() throws InterruptedException {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         testParkingACar();
+        TimeUnit.SECONDS.sleep(20);
         parkingService.processExitingVehicle();
         Ticket ticket = ticketDAO.getTicket(VEHICLE_REG_NUMBER);
 

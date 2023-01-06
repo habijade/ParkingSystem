@@ -7,6 +7,9 @@ public class ParkingSpot {
     private ParkingType parkingType;
     private boolean isAvailable;
 
+    /*
+    A parking space, takes in parameter a number, a parking type and a boolean.
+     */
     public ParkingSpot(int number, ParkingType parkingType, boolean isAvailable) {
         this.number = number;
         this.parkingType = parkingType;

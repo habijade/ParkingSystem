@@ -16,23 +16,26 @@ public class ParkingSpotDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
-    public int getNextAvailableSlot(ParkingType parkingType){
+    /*
+    Allows you to obtain the next available parking space, takes the type of parking space as a parameter and returns the number of available spaces.
+     */
+    public int getNextAvailableSlot(ParkingType parkingType) {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
-        int result=-1;
+        int result = -1;
         try {
             con = dataBaseConfig.getConnection();
             ps = con.prepareStatement(DBConstants.GET_NEXT_PARKING_SPOT);
             ps.setString(1, parkingType.toString());
             rs = ps.executeQuery();
-            if(rs.next()){
-                result = rs.getInt(1);;
+            if (rs.next()) {
+                result = rs.getInt(1);
             }
 
-        }catch (Exception ex){
-            logger.error("Error fetching next available slot",ex);
-        }finally {
+        } catch (Exception ex) {
+            logger.error("Error fetching next available slot", ex);
+        } finally {
             dataBaseConfig.closeResultSet(rs);
             dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
@@ -40,21 +43,26 @@ public class ParkingSpotDAO {
         return result;
     }
 
-    public boolean updateParking(ParkingSpot parkingSpot){
+    /*
+    Update the parking lot, takes a parking space as a parameter and returns the number of updates
+     */
+    public boolean updateParking(ParkingSpot parkingSpot) {
         //update the availability fo that parking slot
         Connection con = null;
+        PreparedStatement ps = null;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
+            ps = con.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
             ps.setBoolean(1, parkingSpot.isAvailable());
             ps.setInt(2, parkingSpot.getId());
             int updateRowCount = ps.executeUpdate();
             dataBaseConfig.closePreparedStatement(ps);
             return (updateRowCount == 1);
-        }catch (Exception ex){
-            logger.error("Error updating parking info",ex);
+        } catch (Exception ex) {
+            logger.error("Error updating parking info", ex);
             return false;
-        }finally {
+        } finally {
+            dataBaseConfig.closePreparedStatement(ps);
             dataBaseConfig.closeConnection(con);
         }
     }
