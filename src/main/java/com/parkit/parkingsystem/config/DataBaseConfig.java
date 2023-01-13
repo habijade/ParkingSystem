@@ -15,7 +15,7 @@ public class DataBaseConfig {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/prod?useSSL=false", ApplicationProperties.INSTANCE.getDatabaseUsername(), ApplicationProperties.INSTANCE.getDatabasePassword());
+                "jdbc:mysql://localhost:3306/prod?allowPublicKeyRetrieval=true&useSSL=false", ApplicationProperties.INSTANCE.getDatabaseUsername(), ApplicationProperties.INSTANCE.getDatabasePassword());
     }
 
     // Close the connection to the database.

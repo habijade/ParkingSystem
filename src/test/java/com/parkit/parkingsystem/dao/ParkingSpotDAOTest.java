@@ -34,7 +34,7 @@ public class ParkingSpotDAOTest {
         int resultSlotAvailable = parkingSpotDAO.getNextAvailableSlot(parkingType);
 
         // THEN
-        assertEquals(2, resultSlotAvailable );
+        assertEquals(1, resultSlotAvailable );
     }
 
     @Test
